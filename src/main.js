@@ -11,24 +11,25 @@ class Scene {
     this.light = new Light();
 
     // Mesh
-    this.mesh = new Mesh(1.0);
-    this.copy = new Mesh(-1.0);
+    this.armadillo = new Mesh(1.0);
+    this.bunny = new Mesh(-1.0);
   }
 
   async init(gl) {
-    await this.mesh.loadMeshV4();
-    this.mesh.init(gl, this.light);
+    await this.armadillo.loadMeshV4('../../assets/obj/armadillo.obj');
+    this.armadillo.init(gl, this.light);
 
-    await this.copy.loadMeshV4()
-    this.copy.init(gl, this.light);
+    await this.bunny.loadMeshV4('../../assets/obj/bunny.obj');
+    this.bunny.init(gl, this.light);
+
   }
 
   draw(gl) {  
     this.cam.updateCam();
     this.light.updateLight();
 
-    this.mesh.draw(gl, this.cam, this.light);
-    this.copy.draw(gl, this.cam, this.light);
+    this.armadillo.draw(gl, this.cam, this.light);
+    this.bunny.draw(gl, this.cam, this.light);
   }
 }
 

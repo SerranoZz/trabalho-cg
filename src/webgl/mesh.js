@@ -28,8 +28,8 @@ export default class Mesh {
     this.uProjectionLoc = -1;
   }
 
-  async loadMeshV4() {
-    const resp = await fetch('../assets/obj/armadillo.obj');
+  async loadMeshV4(path) {
+    const resp = await fetch(path);
     const text = await resp.text();
     
     const txtList = text.split('\n');
@@ -105,7 +105,7 @@ export default class Mesh {
     this.angle += 0.005;
 
     mat4.identity( this.model );
-    //mat4.translate(this.model, this.model, [this.delta, 0, 0]);
+    mat4.translate(this.model, this.model, [this.delta, 0, 0]);
     // [1 0 0 delta, 0 1 0 0, 0 0 1 0, 0 0 0 1] * this.mat 
 
     mat4.rotateY(this.model, this.model, this.angle);
