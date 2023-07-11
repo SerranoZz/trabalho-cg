@@ -3,7 +3,7 @@ export default class Light {
     this.pos = vec4.fromValues(position[0], position[1], position[2], 1.0);
 
     this.amb_c = vec4.fromValues(color[0], color[1], color[2], 1.0);
-    this.amb_k = 0.6;
+    this.amb_k = 0.4;
 
     this.dif_c = vec4.fromValues(1.0, 1.0, 1.0, 1.0);
     this.dif_k = 0.5;

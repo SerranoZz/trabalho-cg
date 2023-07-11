@@ -117,7 +117,6 @@ export default class Mesh {
     this.angleZ += this.rotateZ;
     mat4.identity(this.model);
     
-    
     mat4.rotateZ(this.model, this.model, this.angleZ);
     mat4.translate(this.model, this.model, this.translate);
     
