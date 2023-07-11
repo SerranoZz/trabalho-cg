@@ -12,12 +12,11 @@ class Scene {
   }
   
   async init(gl) {
-    this.armadillo = new Mesh([0,0,0], [1,1,1], 0.005, 0);
+    this.armadillo = new Mesh([0, 0, 0], [1,1,1], 0.007, 0);
     await this.armadillo.loadMeshV4('../../assets/obj/armadillo.obj');
     this.armadillo.init(gl, this.light);
-    console.log(this.armadillo.lengthX);
     
-    this.bunny = new Mesh([-3,0,0], [1/3,1/3,1/3], 0, 0.005);
+    this.bunny = new Mesh([-3.5, 0, 0], [(this.armadillo.lengthX/3) * (1/3.086672), (this.armadillo.lengthY/3) * (1/3.086672), (this.armadillo.lengthZ/3) * (1/3.086672)], 0, 0.007);
     await this.bunny.loadMeshV4('../../assets/obj/bunny.obj');
     this.bunny.init(gl, this.light);
   }

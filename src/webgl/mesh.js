@@ -35,6 +35,7 @@ export default class Mesh {
     this.x = [];
     this.y = [];
     this.z = [];
+
   }
 
   async loadMeshV4(path) {
@@ -65,7 +66,7 @@ export default class Mesh {
         indices.push(parseInt(x[0]) - 1, parseInt(y[0]) - 1, parseInt(z[0]) - 1);
       }
     }
-    
+  
     this.heds.build(coords, indices, normals);
   }
   
