@@ -26,6 +26,7 @@ export default class Mesh {
     this.uModelLoc = -1;
     this.uViewLoc = -1;
     this.uProjectionLoc = -1;
+    
   }
 
   async loadMeshV4() {
@@ -56,6 +57,27 @@ export default class Mesh {
     
     console.log(coords, indices, normals);
     this.heds.build(coords, indices, normals);
+
+    this.addVertexSelectionListener();
+  }
+
+  addVertexSelectionListener() {
+    const model1VertexInput = document.getElementById('model1-vertex');
+    const model2VertexInput = document.getElementById('model2-vertex');
+
+    model1VertexInput.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter') {
+        const model1Vertex = model1VertexInput.value;
+        console.log('Vértice do Modelo 1:', model1Vertex);
+      }
+    });
+
+    model2VertexInput.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter') {
+        const model2Vertex = model2VertexInput.value;
+        console.log('Vértice do Modelo 2:', model2Vertex);
+      }
+    });
   }
   
   createShader(gl) {

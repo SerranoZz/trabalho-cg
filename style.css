@@ -4,11 +4,11 @@
     left: 0;
     width: 100%;
     background-color: #808080;
-    padding: 50px;
+    padding: 10px;
     display: flex;
     justify-content: center;
     align-items: center;
-    flex-direction: column; /* Adicionamos essa propriedade */
+    flex-direction: column; 
   }
 
   #bottom-bar span {
@@ -22,7 +22,7 @@
     padding: 5px;
     border: 1px solid #474A51;
     border-radius: 20px;
-    margin: 10px 0; /* Alteramos o valor da margem para espaçar as barras verticalmente */
+    margin: 10px 0; 
     transition: transform 0.3s ease-in-out;
     max-width: 200px;
   }
