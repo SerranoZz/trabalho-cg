@@ -25,15 +25,18 @@ export default class Camera {
     return this.proj;
   }
 
+  get pos() {
+    return this.eye;
+  }
+
   updateViewMatrix() {
-    mat4.identity( this.view );
+    mat4.identity(this.view);
     mat4.lookAt(this.view, this.eye, this.at, this.up);
   }
 
   updateProjectionMatrix(type = '') {
-    mat4.identity( this.proj );
+    mat4.identity(this.proj);
     mat4.perspective(this.proj, this.fovy, this.aspect, this.near, this.far);
-    
   }
 
   updateCam() {

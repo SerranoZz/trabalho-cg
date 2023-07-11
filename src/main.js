@@ -8,11 +8,12 @@ class Scene {
     this.cam = new Camera(gl);
 
     // Luz
-    this.light = new Light();
+    this.light = new Light(this.cam.pos, [1.0, 1.0, 1.0]);
+    this.yellowLight = new Light([0.3, 0.8, 0.2], [1.0, 1.0, 0.0])
   }
   
   async init(gl) {
-    this.armadillo = new Mesh([0, 0, 0], [1,1,1], 0.007, 0);
+    this.armadillo = new Mesh([0, 0, 0], [1, 1, 1], 0.007, 0);
     await this.armadillo.loadMeshV4('../../assets/obj/armadillo.obj');
     this.armadillo.init(gl, this.light);
     
@@ -23,8 +24,8 @@ class Scene {
 
   draw(gl) {  
     this.cam.updateCam();
-    this.light.updateLight();
-    
+    this.light.updateLight(this.cam.pos);
+
     this.armadillo.draw(gl, this.cam, this.light);
     this.bunny.draw(gl, this.cam, this.light);
   }
