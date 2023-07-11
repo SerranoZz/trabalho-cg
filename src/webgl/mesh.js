@@ -68,6 +68,13 @@ export default class Mesh {
     model1VertexInput.addEventListener('keydown', (event) => {
       if (event.key === 'Enter') {
         const model1Vertex = model1VertexInput.value;
+        if (model1Vertex > coords.length) {
+          console.log("vértice inexistente");
+        } else {
+          for (let i = 0; i < coords.length; i++) {
+            //lógica para selecionar o vértice ao ser percorrido e pintar os triângulos adjacentes
+          }
+        }
         console.log('Vértice do Modelo 1:', model1Vertex);
       }
     });
