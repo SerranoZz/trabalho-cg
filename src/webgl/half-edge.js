@@ -135,12 +135,16 @@ export class HalfEdgeDS {
   }
 
   estrela(v) {
-    const startHe = v.he;
+    const startHe = this.vertices[v].he;
     let currentHe = startHe;
     do {
-      currentHe.vertex.color = [1.0, 0.0, 0.0, 1.0];
-      currentHe = currentHe.next;
+      const startHe1 = currentHe;
+      do{
+        currentHe.vertex.color = [1.0, 0.0, 0.0, 1.0];
+        currentHe = currentHe.next;
+      } while (currentHe !== startHe1 && currentHe !== null);
+      currentHe = currentHe.opposite.next;
     } while (currentHe !== startHe && currentHe !== null);
   }
-
+  
 }

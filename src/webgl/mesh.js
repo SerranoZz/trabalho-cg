@@ -31,7 +31,7 @@ export default class Mesh {
     
   }
 
-  async loadMeshV4() {
+  async loadMeshV4(gl) {
     const resp = await fetch('../assets/obj/armadillo.obj');
     const text = await resp.text();
     
@@ -59,12 +59,12 @@ export default class Mesh {
     
     this.heds.build(coords, indices, normals);
 
-    this.addVertexSelectionListener();
+    this.addVertexSelectionListener(gl);
 
     this.tamanhoCoords = coords.length/4;
   }
 
-  addVertexSelectionListener() {
+  addVertexSelectionListener(gl) {
     const model1VertexInput = document.getElementById('model1-vertex');
     const model2VertexInput = document.getElementById('model2-vertex');
 
@@ -76,6 +76,7 @@ export default class Mesh {
           console.log("vértice inexistente");
         } else {
           this.heds.estrela(model1Vertex);
+          this.createVAO(gl);
           console.log('Vértice do Modelo 1:', model1Vertex);
         }        
       }
@@ -89,6 +90,7 @@ export default class Mesh {
           console.log("vértice inexistente");
         } else {
           this.heds.estrela(model2Vertex);
+          this.createVAO(gl);
           console.log('Vértice do Modelo 2:', model2Vertex);
         }
       }

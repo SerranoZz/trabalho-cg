@@ -16,10 +16,10 @@ class Scene {
   }
 
   async init(gl) {
-    await this.mesh.loadMeshV4();
+    await this.mesh.loadMeshV4(gl);
     this.mesh.init(gl, this.light);
 
-    await this.copy.loadMeshV4()
+    await this.copy.loadMeshV4(gl)
     this.copy.init(gl, this.light);
   }
 
