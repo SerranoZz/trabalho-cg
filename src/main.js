@@ -65,5 +65,3 @@ window.onload = () => {
   const app = new Main();
   app.draw();
 }
-
-
