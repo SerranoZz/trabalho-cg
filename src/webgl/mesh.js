@@ -5,13 +5,17 @@ import Shader from '../shaders/shader.js';
 import { HalfEdgeDS } from '../webgl/half-edge.js';
 
 export default class Mesh {
-  constructor(delta) {
+  constructor(vetTranslate, vetScale, rotateY, rotateZ) {
     // model data structure
     this.heds = new HalfEdgeDS();
 
     // Matriz de modelagem
-    this.angle = 0;
-    this.delta = delta;
+    this.translate = vetTranslate;
+    this.scale = vetScale;
+    this.rotateY = rotateY;
+    this.rotateZ = rotateZ;
+    this.angleY = 0;
+    this.angleZ = 0;
     this.model = mat4.create();
     
     // Shader program
@@ -28,11 +32,14 @@ export default class Mesh {
     this.uProjectionLoc = -1;
 
     this.tamanhoCoords = -1;
+    this.x = [];
+    this.y = [];
+    this.z = [];
     
   }
 
-  async loadMeshV4(gl) {
-    const resp = await fetch('../assets/obj/armadillo.obj');
+  async loadMeshV4(gl, path) {
+    const resp = await fetch(path);
     const text = await resp.text();
     
     const txtList = text.split('\n');
@@ -47,6 +54,9 @@ export default class Mesh {
 
       if(subString[0] === 'v'){
         coords.push(parseFloat(subString[1]), parseFloat(subString[2]), parseFloat(subString[3]), 1);
+        this.x.push(parseFloat(subString[1]));
+        this.y.push(parseFloat(subString[2]));
+        this.z.push(parseFloat(subString[3]))
       }else if(subString[0] === 'vn'){
         normals.push(parseFloat(subString[1]), parseFloat(subString[2]), parseFloat(subString[3]), 0);
       }else if(subString[0] === 'f'){
@@ -57,6 +67,7 @@ export default class Mesh {
       }
     }
     
+  
     this.heds.build(coords, indices, normals);
 
     this.addVertexSelectionListener(gl);
@@ -113,7 +124,6 @@ export default class Mesh {
 
   createVAO(gl) {
     const vbos = this.heds.getVBOs();
-    console.log(vbos);
 
     var coordsAttributeLocation = gl.getAttribLocation(this.program, "position");
     const coordsBuffer = Shader.createBuffer(gl, gl.ARRAY_BUFFER, new Float32Array(vbos[0]));
@@ -141,24 +151,15 @@ export default class Mesh {
   }
 
   updateModelMatrix() {
-    this.angle += 0.005;
-
-    mat4.identity( this.model );
-    //mat4.translate(this.model, this.model, [this.delta, 0, 0]);
-    // [1 0 0 delta, 0 1 0 0, 0 0 1 0, 0 0 0 1] * this.mat 
-
-    mat4.rotateY(this.model, this.model, this.angle);
-    // [ cos(this.angle) 0 -sin(this.angle) 0, 
-    //         0         1        0         0, 
-    //   sin(this.angle) 0  cos(this.angle) 0, 
-    //         0         0        0         1]
-    // * this.mat 
-
-    //mat4.translate(this.model, this.model, [-0.25, -0.25, -0.25]);
-    // [1 0 0 -0.5, 0 1 0 -0.5, 0 0 1 -0.5, 0 0 0 1] * this.mat 
-
-    mat4.scale(this.model, this.model, [1, 1, 1]);
-    // [5 0 0 0, 0 5 0 0, 0 0 5 0, 0 0 0 1] * this.mat 
+    this.angleY += this.rotateY;
+    this.angleZ += this.rotateZ;
+    mat4.identity(this.model);
+    
+    mat4.rotateZ(this.model, this.model, this.angleZ);
+    mat4.translate(this.model, this.model, this.translate);
+    
+    mat4.rotateY(this.model, this.model, this.angleY);
+    mat4.scale(this.model, this.model, this.scale); 
   }
 
   draw(gl, cam, light) {
@@ -189,4 +190,17 @@ export default class Mesh {
 
     gl.disable(gl.CULL_FACE);
   }
+
+  get lengthX(){
+    return Math.max(...this.x) - Math.min(...this.x);
+  }
+
+  get lengthY(){
+    return Math.max(...this.y) - Math.min(...this.y);
+  }
+
+  get lengthZ(){
+    return Math.max(...this.z) - Math.min(...this.z);
+  }
+
 }

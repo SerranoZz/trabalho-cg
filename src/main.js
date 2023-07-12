@@ -9,26 +9,24 @@ class Scene {
 
     // Luz
     this.light = new Light();
-
-    // Mesh
-    this.mesh = new Mesh(1.0);
-    this.copy = new Mesh(-1.0);
   }
-
+  
   async init(gl) {
-    await this.mesh.loadMeshV4(gl);
-    this.mesh.init(gl, this.light);
-
-    await this.copy.loadMeshV4(gl)
-    this.copy.init(gl, this.light);
+    this.armadillo = new Mesh([0, 0, 0], [1,1,1], 0.007, 0);
+    await this.armadillo.loadMeshV4(gl, '../../assets/obj/armadillo.obj');
+    this.armadillo.init(gl, this.light);
+    
+    this.bunny = new Mesh([-3.5, 0, 0], [(this.armadillo.lengthX/3) * (1/3.11398), (this.armadillo.lengthY/3) * (1/3.086672), (this.armadillo.lengthZ/3) * (1/2.4134659999999997)], 0, 0.007);
+    await this.bunny.loadMeshV4(gl, '../../assets/obj/bunny.obj');
+    this.bunny.init(gl, this.light);
   }
 
   draw(gl) {  
     this.cam.updateCam();
     this.light.updateLight();
-
-    this.mesh.draw(gl, this.cam, this.light);
-    this.copy.draw(gl, this.cam, this.light);
+    
+    this.armadillo.draw(gl, this.cam, this.light);
+    this.bunny.draw(gl, this.cam, this.light);
   }
 }
 
@@ -67,5 +65,3 @@ window.onload = () => {
   const app = new Main();
   app.draw();
 }
-
-

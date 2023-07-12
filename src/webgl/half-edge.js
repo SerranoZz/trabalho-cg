@@ -75,7 +75,6 @@ export class HalfEdgeDS {
     this.computeOpposites();
     this.computeVertexHe();
 
-    console.log(this);
   }
 
   computeOpposites() {
