@@ -31,14 +31,14 @@ export default class Mesh {
     this.uViewLoc = -1;
     this.uProjectionLoc = -1;
 
-    // Coordenadas mínimas e máximas
+    this.tamanhoCoords = -1;
     this.x = [];
     this.y = [];
     this.z = [];
-
+    
   }
 
-  async loadMeshV4(path) {
+  async loadMeshV4(gl, path) {
     const resp = await fetch(path);
     const text = await resp.text();
     
@@ -66,8 +66,46 @@ export default class Mesh {
         indices.push(parseInt(x[0]) - 1, parseInt(y[0]) - 1, parseInt(z[0]) - 1);
       }
     }
+    
   
     this.heds.build(coords, indices, normals);
+
+    this.addVertexSelectionListener(gl);
+
+    this.tamanhoCoords = coords.length/4;
+  }
+
+  addVertexSelectionListener(gl) {
+    const model1VertexInput = document.getElementById('model1-vertex');
+    const model2VertexInput = document.getElementById('model2-vertex');
+
+    model1VertexInput.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter') {
+        const model1Vertex = model1VertexInput.value;
+        if (model1Vertex > this.tamanhoCoords) {
+          //verifica se o vértice digitado é maior que os que existem
+          console.log("vértice inexistente");
+        } else {
+          this.heds.estrela(model1Vertex);
+          this.createVAO(gl);
+          console.log('Vértice do Modelo 1:', model1Vertex);
+        }        
+      }
+    });
+
+    model2VertexInput.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter') {
+        const model2Vertex = model2VertexInput.value;
+        if (model2Vertex > this.tamanhoCoords) {
+          //verifica se o vértice digitado é maior que os que existem
+          console.log("vértice inexistente");
+        } else {
+          this.heds.estrela(model2Vertex);
+          this.createVAO(gl);
+          console.log('Vértice do Modelo 2:', model2Vertex);
+        }
+      }
+    });
   }
   
   createShader(gl) {

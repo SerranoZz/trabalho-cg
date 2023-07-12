@@ -1,21 +1,38 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <link rel="stylesheet" href="./style.css">
+
     <meta charset="UTF-8">
-    <title>Primeiros Passos</title>
+    <title>Trabalho de CG</title>
     <link rel="stylesheet" href="./assets/style/main.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gl-matrix/2.6.1/gl-matrix-min.js"></script>
+    <style>
+        #glcanvas {
+            position: absolute;
+            z-index: -1;
+        }
+    </style>
 </head>
 
 <body>
+    
+    <form id="vertex-form">
+        <div id="bottom-bar">
+            <span>Escolha um vértice de cada modelo</span>
+            <input type="text" id="model1-vertex" placeholder="Vértice do Armadillo">
+            <input type="text" id="model2-vertex" placeholder="Vértice do Coelho">
+        </div>
+    </form>
+
     <canvas id="glcanvas"></canvas>
+
+    <script src="./src/shaders/shader.js" type="module"></script>
+    <script src="./src/webgl/camera.js" type="module"></script>
+    <script src="./src/webgl/light.js" type="module"></script>
+    <script src="./src/webgl/half-edge.js" type="module"></script>
+    <script src="./src/webgl/mesh.js" type="module"></script>
+    <script src="./src/main.js" type="module"></script>
+
 </body>
-
-<script src="./src/shaders/shader.js" type="module"></script>
-<script src="./src/webgl/camera.js" type="module"></script>
-<script src="./src/webgl/light.js" type="module"></script>
-<script src="./src/webgl/half-edge.js" type="module"></script>
-<script src="./src/webgl/mesh.js" type="module"></script>
-<script src="./src/main.js" type="module"></script>
-
 </html>
