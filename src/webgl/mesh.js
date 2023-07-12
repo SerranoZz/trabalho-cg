@@ -142,7 +142,7 @@ export default class Mesh {
     this.indicesLoc = Shader.createBuffer(gl, gl.ELEMENT_ARRAY_BUFFER, new Uint32Array(vbos[3]));
   }  
 
-  init(gl, light0) {
+  init(gl, light) {
     this.createShader(gl);
     this.createUniforms(gl);
     this.createVAO(gl);
