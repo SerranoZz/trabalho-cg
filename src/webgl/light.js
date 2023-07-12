@@ -4,19 +4,20 @@ export default class Light {
     this.angle = 0;
 
     this.amb_c = vec4.fromValues(color[0], color[1], color[2], 1.0);
-    this.amb_k = 0.2;
+    this.amb_k = 0.4;
 
     this.dif_c = vec4.fromValues(1.0, 1.0, 1.0, 1.0);
-    this.dif_k = 0.5;
+    this.dif_k = 0.4;
 
     this.esp_c = vec4.fromValues(1.0, 1.0, 1.0, 1.0);
-    this.esp_k = 0.4;
+    this.esp_k = 0.2;
     this.esp_p = 5.0;
   }
 
   createUniforms(gl, program){
     const posLoc = gl.getUniformLocation(program, "light_pos");
     gl.uniform4fv(posLoc, this.pos);
+    console.log(this.pos);
 
     const ambCLoc = gl.getUniformLocation(program, "light_amb_c");
     gl.uniform4fv(ambCLoc, this.amb_c);
@@ -46,5 +47,9 @@ export default class Light {
     // Calcula a nova posição eye com base no ângulo
     this.pos[0] = radius * Math.sin(this.angle);
     this.pos[2] = radius * Math.cos(this.angle);
+  }
+
+  get getPos(){
+    return this.pos;
   }
 }
