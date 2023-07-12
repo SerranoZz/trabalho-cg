@@ -15,16 +15,16 @@ class Scene {
   async init(gl) {
     this.armadillo = new Mesh([0, 0, 0], [1,1,1], 0.007, 0);
     await this.armadillo.loadMeshV4(gl, '../../assets/obj/armadillo.obj');
-    this.armadillo.init(gl, this.light);
+    this.armadillo.init(gl, this.light, this.yellowLight);
     
     this.bunny = new Mesh([-3.5, 0, 0], [(this.armadillo.lengthX/3) * (1/3.11398), (this.armadillo.lengthY/3) * (1/3.086672), (this.armadillo.lengthZ/3) * (1/2.4134659999999997)], 0, 0.007);
     await this.bunny.loadMeshV4(gl, '../../assets/obj/bunny.obj');
-    this.bunny.init(gl, this.light);
+    this.bunny.init(gl, this.light, this.yellowLight);
   }
 
   draw(gl) {  
     this.cam.updateCam();
-    this.light.updateLight(this.cam.pos);
+    this.light.updateLight();
 
     this.armadillo.draw(gl, this.cam, this.light);
     this.bunny.draw(gl, this.cam, this.light);

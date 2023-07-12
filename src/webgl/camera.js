@@ -45,7 +45,7 @@ export default class Camera {
     const speed = 0.01; // Velocidade de rotação
 
     // Atualiza o ângulo
-    this.angle += speed;
+    this.angle += 0;
 
     // Calcula a nova posição eye com base no ângulo
     this.eye[0] = radius * Math.sin(this.angle);
