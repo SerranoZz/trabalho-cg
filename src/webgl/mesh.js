@@ -26,6 +26,8 @@ export default class Mesh {
     this.uModelLoc = -1;
     this.uViewLoc = -1;
     this.uProjectionLoc = -1;
+
+    this.tamanhoCoords = -1;
     
   }
 
@@ -55,10 +57,11 @@ export default class Mesh {
       }
     }
     
-    console.log(coords, indices, normals);
     this.heds.build(coords, indices, normals);
 
     this.addVertexSelectionListener();
+
+    this.tamanhoCoords = coords.length/4;
   }
 
   addVertexSelectionListener() {
@@ -68,21 +71,26 @@ export default class Mesh {
     model1VertexInput.addEventListener('keydown', (event) => {
       if (event.key === 'Enter') {
         const model1Vertex = model1VertexInput.value;
-        if (model1Vertex > coords.length) {
+        if (model1Vertex > this.tamanhoCoords) {
+          //verifica se o vértice digitado é maior que os que existem
           console.log("vértice inexistente");
         } else {
-          for (let i = 0; i < coords.length; i++) {
-            //lógica para selecionar o vértice ao ser percorrido e pintar os triângulos adjacentes
-          }
-        }
-        console.log('Vértice do Modelo 1:', model1Vertex);
+          this.heds.estrela(model1Vertex);
+          console.log('Vértice do Modelo 1:', model1Vertex);
+        }        
       }
     });
 
     model2VertexInput.addEventListener('keydown', (event) => {
       if (event.key === 'Enter') {
         const model2Vertex = model2VertexInput.value;
-        console.log('Vértice do Modelo 2:', model2Vertex);
+        if (model2Vertex > this.tamanhoCoords) {
+          //verifica se o vértice digitado é maior que os que existem
+          console.log("vértice inexistente");
+        } else {
+          this.heds.estrela(model2Vertex);
+          console.log('Vértice do Modelo 2:', model2Vertex);
+        }
       }
     });
   }
