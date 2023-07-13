@@ -24,7 +24,7 @@ class Scene {
 
   draw(gl) {  
     this.cam.updateCam();
-    this.light.updateLight(this.cam.pos);
+    this.light.updateLight(this.cam.pos,gl);
 
     this.armadillo.draw(gl, this.cam, this.light);
     this.bunny.draw(gl, this.cam, this.light);

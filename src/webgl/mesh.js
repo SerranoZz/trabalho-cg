@@ -53,7 +53,7 @@ export default class Mesh {
       let subString = txtList[i].split(' ');
 
       if(subString[0] === 'v'){
-        coords.push(parseFloat(subString[1]), parseFloat(subString[2]), parseFloat(subString[3]), 1);
+        coords.push(parseFloat(subString[1]), parseFloat(subString[2]), parseFloat(subString[3]), 1);    
         this.x.push(parseFloat(subString[1]));
         this.y.push(parseFloat(subString[2]));
         this.z.push(parseFloat(subString[3]))
@@ -66,7 +66,7 @@ export default class Mesh {
         indices.push(parseInt(x[0]) - 1, parseInt(y[0]) - 1, parseInt(z[0]) - 1);
       }
     }
-  
+    
     this.heds.build(coords, indices, normals);
   }
   

@@ -3,13 +3,13 @@ export default class Light {
     this.pos = vec4.fromValues(position[0], position[1], position[2], 1.0);
 
     this.amb_c = vec4.fromValues(color[0], color[1], color[2], 1.0);
-    this.amb_k = 0.4;
+    this.amb_k = 0.2;
 
     this.dif_c = vec4.fromValues(1.0, 1.0, 1.0, 1.0);
     this.dif_k = 0.5;
 
     this.esp_c = vec4.fromValues(1.0, 1.0, 1.0, 1.0);
-    this.esp_k = 0.4;
+    this.esp_k = 0.3;
     this.esp_p = 5.0;
   }
 
@@ -35,7 +35,11 @@ export default class Light {
     gl.uniform1f(espPLoc, this.esp_p);
   }
 
-  updateLight(position) {
+  updateLight(position,gl) {
     this.pos = vec4.fromValues(position[0], position[1], position[2], 1.0);
+    console.log(position[0], position[1], position[2]);
+
+    const posLoc = gl.getUniformLocation(program, "light_pos");
+    gl.uniform4fv(posLoc, this.pos);
   }
 }
