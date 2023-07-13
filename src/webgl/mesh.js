@@ -66,11 +66,7 @@ export default class Mesh {
         indices.push(parseInt(x[0]) - 1, parseInt(y[0]) - 1, parseInt(z[0]) - 1);
       }
     }
-    
-<<<<<<< HEAD
-=======
   
->>>>>>> 62dd8e7fb5f6443abab3773816766eb17e1c1983
     this.heds.build(coords, indices, normals);
 
     this.addVertexSelectionListener(gl);
