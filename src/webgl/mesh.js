@@ -31,14 +31,14 @@ export default class Mesh {
     this.uViewLoc = -1;
     this.uProjectionLoc = -1;
 
-    // Coordenadas mínimas e máximas
+    this.tamanhoCoords = -1;
     this.x = [];
     this.y = [];
     this.z = [];
-
+    
   }
 
-  async loadMeshV4(path) {
+  async loadMeshV4(gl, path) {
     const resp = await fetch(path);
     const text = await resp.text();
     
@@ -67,7 +67,48 @@ export default class Mesh {
       }
     }
     
+<<<<<<< HEAD
+=======
+  
+>>>>>>> 62dd8e7fb5f6443abab3773816766eb17e1c1983
     this.heds.build(coords, indices, normals);
+
+    this.addVertexSelectionListener(gl);
+
+    this.tamanhoCoords = coords.length/4;
+  }
+
+  addVertexSelectionListener(gl) {
+    const model1VertexInput = document.getElementById('model1-vertex');
+    const model2VertexInput = document.getElementById('model2-vertex');
+
+    model1VertexInput.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter') {
+        const model1Vertex = model1VertexInput.value;
+        if (model1Vertex > this.tamanhoCoords) {
+          //verifica se o vértice digitado é maior que os que existem
+          console.log("vértice inexistente");
+        } else {
+          this.heds.estrela(model1Vertex);
+          this.createVAO(gl);
+          console.log('Vértice do Modelo 1:', model1Vertex);
+        }        
+      }
+    });
+
+    model2VertexInput.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter') {
+        const model2Vertex = model2VertexInput.value;
+        if (model2Vertex > this.tamanhoCoords) {
+          //verifica se o vértice digitado é maior que os que existem
+          console.log("vértice inexistente");
+        } else {
+          this.heds.estrela(model2Vertex);
+          this.createVAO(gl);
+          console.log('Vértice do Modelo 2:', model2Vertex);
+        }
+      }
+    });
   }
   
   createShader(gl) {
@@ -104,12 +145,13 @@ export default class Mesh {
     this.indicesLoc = Shader.createBuffer(gl, gl.ELEMENT_ARRAY_BUFFER, new Uint32Array(vbos[3]));
   }  
 
-  init(gl, light) {
+  init(gl, light0, light1) {
     this.createShader(gl);
     this.createUniforms(gl);
     this.createVAO(gl);
 
-    light.createUniforms(gl, this.program);
+    light0.createUniforms(gl, this.program);
+    light1.createUniforms(gl, this.program);
   }
 
   updateModelMatrix() {
