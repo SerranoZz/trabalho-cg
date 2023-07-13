@@ -129,8 +129,8 @@ export default class Mesh {
     this.createUniforms(gl);
     this.createVAO(gl);
 
-    light0.createUniforms(gl, this.program);
-    light1.createUniforms(gl, this.program);
+    light0.createUniforms(gl, this.program, 'white');
+    light1.createUniforms(gl, this.program, 'yellow');
   }
 
   updateModelMatrix() {
@@ -145,7 +145,7 @@ export default class Mesh {
     mat4.scale(this.model, this.model, this.scale); 
   }
 
-  draw(gl, cam, light) {
+  draw(gl, cam) {
     // faces orientadas no sentido anti-horário
     gl.frontFace(gl.CCW);
 

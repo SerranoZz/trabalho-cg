@@ -6,20 +6,21 @@ class Scene {
   constructor(gl) {
     // Camera virtual
     this.cam = new Camera(gl);
+    console.log(this.cam.pos);
 
     // Luz
-    this.light = new Light(this.cam.pos, [1.0, 1.0, 1.0]);
-    this.yellowLight = new Light([0.3, 0.8, 0.2], [1.0, 1.0, 0.0])
+    this.whiteLight = new Light(this.cam.pos, [1.0, 1.0, 1.0, 1.0]);
+    this.yellowLight = new Light([0.0, 5.0, 0.0], [1.0, 1.0, 0.0, 0.5])
   }
   
   async init(gl) {
     this.armadillo = new Mesh([0, 0, 0], [1,1,1], 0.007, 0);
     await this.armadillo.loadMeshV4(gl, '../../assets/obj/armadillo.obj');
-    this.armadillo.init(gl, this.light, this.yellowLight);
+    this.armadillo.init(gl, this.whiteLight, this.yellowLight);
     
     this.bunny = new Mesh([-3.5, 0, 0], [(this.armadillo.lengthX/3) * (1/3.11398), (this.armadillo.lengthY/3) * (1/3.086672), (this.armadillo.lengthZ/3) * (1/2.4134659999999997)], 0, 0.007);
     await this.bunny.loadMeshV4(gl, '../../assets/obj/bunny.obj');
-    this.bunny.init(gl, this.light, this.yellowLight);
+    this.bunny.init(gl, this.whiteLight, this.yellowLight);
 
     this.armadillo.addVertexSelectionListener(gl, 'model1-vertex');
     this.bunny.addVertexSelectionListener(gl, 'model2-vertex');
@@ -27,10 +28,11 @@ class Scene {
 
   draw(gl) {  
     this.cam.updateCam();
-    this.light.updateLight();
+    let pos = this.cam.pos;
+    this.whiteLight.setPos(pos[0], pos[1], pos[2]);
 
-    this.armadillo.draw(gl, this.cam, this.light);
-    this.bunny.draw(gl, this.cam, this.light);
+    this.armadillo.draw(gl, this.cam);
+    this.bunny.draw(gl, this.cam);
   }
 }
 
