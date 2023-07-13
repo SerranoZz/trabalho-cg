@@ -20,6 +20,9 @@ class Scene {
     this.bunny = new Mesh([-3.5, 0, 0], [(this.armadillo.lengthX/3) * (1/3.11398), (this.armadillo.lengthY/3) * (1/3.086672), (this.armadillo.lengthZ/3) * (1/2.4134659999999997)], 0, 0.007);
     await this.bunny.loadMeshV4(gl, '../../assets/obj/bunny.obj');
     this.bunny.init(gl, this.light, this.yellowLight);
+
+    this.armadillo.addVertexSelectionListener(gl, 'model1-vertex');
+    this.bunny.addVertexSelectionListener(gl, 'model2-vertex');
   }
 
   draw(gl) {  

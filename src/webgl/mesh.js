@@ -67,32 +67,28 @@ export default class Mesh {
       }
     }
     
-  
     this.heds.build(coords, indices, normals);
-
-    this.addVertexSelectionListener(gl);
 
     this.tamanhoCoords = coords.length/4;
   }
 
-  addVertexSelectionListener(gl) {
-    const model1VertexInput = document.getElementById('model1-vertex');
-    const model2VertexInput = document.getElementById('model2-vertex');
+  addVertexSelectionListener(gl, model) {
+    const modelVertexInput = document.getElementById(`${model}`);
 
-    model1VertexInput.addEventListener('keydown', (event) => {
+    modelVertexInput.addEventListener('keydown', (event) => {
       if (event.key === 'Enter') {
-        const model1Vertex = model1VertexInput.value;
-        if (model1Vertex > this.tamanhoCoords) {
+        const modelVertex = modelVertexInput.value;
+        if (modelVertex > this.tamanhoCoords) {
           //verifica se o vértice digitado é maior que os que existem
           console.log("vértice inexistente");
         } else {
-          this.heds.estrela(model1Vertex);
+          this.heds.estrela(modelVertex);
           this.createVAO(gl);
-          console.log('Vértice do Modelo 1:', model1Vertex);
+          console.log('Vértice do Modelo 1:', modelVertex);
         }        
       }
     });
-
+/*
     model2VertexInput.addEventListener('keydown', (event) => {
       if (event.key === 'Enter') {
         const model2Vertex = model2VertexInput.value;
@@ -105,7 +101,7 @@ export default class Mesh {
           console.log('Vértice do Modelo 2:', model2Vertex);
         }
       }
-    });
+    });*/
   }
   
   createShader(gl) {
