@@ -84,24 +84,10 @@ export default class Mesh {
         } else {
           this.heds.estrela(modelVertex);
           this.createVAO(gl);
-          console.log('Vértice do Modelo 1:', modelVertex);
+          console.log('Vértice do Modelo:', modelVertex);
         }        
       }
     });
-/*
-    model2VertexInput.addEventListener('keydown', (event) => {
-      if (event.key === 'Enter') {
-        const model2Vertex = model2VertexInput.value;
-        if (model2Vertex > this.tamanhoCoords) {
-          //verifica se o vértice digitado é maior que os que existem
-          console.log("vértice inexistente");
-        } else {
-          this.heds.estrela(model2Vertex);
-          this.createVAO(gl);
-          console.log('Vértice do Modelo 2:', model2Vertex);
-        }
-      }
-    });*/
   }
   
   createShader(gl) {
