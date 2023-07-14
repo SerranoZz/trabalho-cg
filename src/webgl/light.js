@@ -15,7 +15,7 @@ export default class Light {
   }
 
   createUniforms(gl, program, name){
-    const posLoc = gl.getUniformLocation(program, `light_pos_${name}`);
+    let posLoc = gl.getUniformLocation(program, `light_pos_${name}`);
     gl.uniform4fv(posLoc, this.pos);
 
     const ambCLoc = gl.getUniformLocation(program, `light_amb_c_${name}`);
@@ -36,7 +36,11 @@ export default class Light {
     gl.uniform1f(espPLoc, this.esp_p);
   }
 
-  setPos(x, y, z){
+  setPos(x, y, z, gl, program0, program1, name){
     this.pos = vec4.fromValues(x, y, z, 1.0);
+    let posLoc0 = gl.getUniformLocation(program0, `light_pos_${name}`);
+    gl.uniform4fv(posLoc0, this.pos);
+    let posLoc1 = gl.getUniformLocation(program1, `light_pos_${name}`);
+    gl.uniform4fv(posLoc1, this.pos);
   }
 }

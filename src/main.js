@@ -26,7 +26,7 @@ class Scene {
   draw(gl) {  
     this.cam.updateCam();
     let pos = this.cam.pos;
-    this.whiteLight.setPos(pos[0], pos[1], pos[2]);
+    this.whiteLight.setPos(pos[0], pos[1], pos[2], gl, this.armadillo.program, this.bunny.program, 'white');
 
     this.armadillo.draw(gl, this.cam);
     this.bunny.draw(gl, this.cam);
