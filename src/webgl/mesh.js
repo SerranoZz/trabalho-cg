@@ -74,6 +74,14 @@ export default class Mesh {
 
   addVertexSelectionListener(gl, model) {
     const modelVertexInput = document.getElementById(`${model}`);
+    let nome = "";
+
+    if (model === "model1-vertex"){
+      nome = "Armadillo";
+    }
+    else{
+      nome = "Coelho";
+    }
 
     modelVertexInput.addEventListener('keydown', (event) => {
       if (event.key === 'Enter') {
@@ -84,6 +92,7 @@ export default class Mesh {
         else {
           this.heds.estrela(modelVertex);
           this.createVAO(gl);
+          alert(`A região ligada ao vértice ${modelVertex} do ${nome} foi pintada!`);
         }        
       }
     });
