@@ -1,17 +1,20 @@
 import vertShaderSrc from '../shaders/phong.vert.js';
 import fragShaderSrc from '../shaders/phong.frag.js';
-
 import Shader from '../shaders/shader.js';
 import { HalfEdgeDS } from '../webgl/half-edge.js';
 
 export default class Mesh {
-  constructor(delta) {
-    // model data structure
+  constructor(vetTranslate, vetScale, rotateY, rotateZ) {
+    // Model data structure
     this.heds = new HalfEdgeDS();
 
     // Matriz de modelagem
-    this.angle = 0;
-    this.delta = delta;
+    this.translate = vetTranslate;
+    this.scale = vetScale;
+    this.rotateY = rotateY;
+    this.rotateZ = rotateZ;
+    this.angleY = 0;
+    this.angleZ = 0;
     this.model = mat4.create();
     
     // Shader program
@@ -26,17 +29,22 @@ export default class Mesh {
     this.uModelLoc = -1;
     this.uViewLoc = -1;
     this.uProjectionLoc = -1;
+
+    this.tamanhoCoords = -1;
+    this.x = [];
+    this.y = [];
+    this.z = [];
   }
 
-  async loadMeshV4() {
-    const resp = await fetch('../assets/obj/armadillo.obj');
+  async loadMeshV4(gl, path) {
+    const resp = await fetch(path);
     const text = await resp.text();
     
     const txtList = text.split('\n');
     
-    const coords = []; //v
-    const normals = []; //vn
-    const indices = []; //f
+    const coords = [];
+    const normals = [];
+    const indices = [];
     
     for(let i = 0; i < txtList.length; i++){
       
@@ -44,9 +52,14 @@ export default class Mesh {
 
       if(subString[0] === 'v'){
         coords.push(parseFloat(subString[1]), parseFloat(subString[2]), parseFloat(subString[3]), 1);
-      }else if(subString[0] === 'vn'){
+        this.x.push(parseFloat(subString[1]));
+        this.y.push(parseFloat(subString[2]));
+        this.z.push(parseFloat(subString[3]))
+      }
+      else if(subString[0] === 'vn'){
         normals.push(parseFloat(subString[1]), parseFloat(subString[2]), parseFloat(subString[3]), 0);
-      }else if(subString[0] === 'f'){
+      }
+      else if(subString[0] === 'f'){
         let x = subString[1].split('//');
         let y = subString[2].split('//');
         let z = subString[3].split('//');
@@ -54,8 +67,26 @@ export default class Mesh {
       }
     }
     
-    console.log(coords, indices, normals);
     this.heds.build(coords, indices, normals);
+
+    this.tamanhoCoords = coords.length/4;
+  }
+
+  addVertexSelectionListener(gl, model) {
+    const modelVertexInput = document.getElementById(`${model}`);
+
+    modelVertexInput.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter') {
+        const modelVertex = modelVertexInput.value;
+        if (modelVertex > this.tamanhoCoords) {
+          alert("Vértice Inexistente, digite um valor válido!");
+        } 
+        else {
+          this.heds.estrela(modelVertex);
+          this.createVAO(gl);
+        }        
+      }
+    });
   }
   
   createShader(gl) {
@@ -74,7 +105,6 @@ export default class Mesh {
 
   createVAO(gl) {
     const vbos = this.heds.getVBOs();
-    console.log(vbos);
 
     var coordsAttributeLocation = gl.getAttribLocation(this.program, "position");
     const coordsBuffer = Shader.createBuffer(gl, gl.ARRAY_BUFFER, new Float32Array(vbos[0]));
@@ -86,43 +116,35 @@ export default class Mesh {
     const normalsBuffer = Shader.createBuffer(gl, gl.ARRAY_BUFFER, new Float32Array(vbos[2]));
 
     this.vaoLoc = Shader.createVAO(gl,
-      coordsAttributeLocation, coordsBuffer, 
-      colorsAttributeLocation, colorsBuffer, 
-      normalsAttributeLocation, normalsBuffer);
+    coordsAttributeLocation, coordsBuffer, 
+    colorsAttributeLocation, colorsBuffer, 
+    normalsAttributeLocation, normalsBuffer);
 
     this.indicesLoc = Shader.createBuffer(gl, gl.ELEMENT_ARRAY_BUFFER, new Uint32Array(vbos[3]));
   }  
 
-  init(gl, light) {
+  init(gl, light0, light1) {
     this.createShader(gl);
     this.createUniforms(gl);
     this.createVAO(gl);
 
-    light.createUniforms(gl, this.program);
+    light0.createUniforms(gl, this.program, 'white');
+    light1.createUniforms(gl, this.program, 'yellow');
   }
 
   updateModelMatrix() {
-    this.angle += 0.005;
-
-    mat4.identity( this.model );
-    //mat4.translate(this.model, this.model, [this.delta, 0, 0]);
-    // [1 0 0 delta, 0 1 0 0, 0 0 1 0, 0 0 0 1] * this.mat 
-
-    mat4.rotateY(this.model, this.model, this.angle);
-    // [ cos(this.angle) 0 -sin(this.angle) 0, 
-    //         0         1        0         0, 
-    //   sin(this.angle) 0  cos(this.angle) 0, 
-    //         0         0        0         1]
-    // * this.mat 
-
-    //mat4.translate(this.model, this.model, [-0.25, -0.25, -0.25]);
-    // [1 0 0 -0.5, 0 1 0 -0.5, 0 0 1 -0.5, 0 0 0 1] * this.mat 
-
-    mat4.scale(this.model, this.model, [1, 1, 1]);
-    // [5 0 0 0, 0 5 0 0, 0 0 5 0, 0 0 0 1] * this.mat 
+    this.angleY += this.rotateY;
+    this.angleZ += this.rotateZ;
+    mat4.identity(this.model);
+    
+    mat4.rotateZ(this.model, this.model, this.angleZ);
+    mat4.translate(this.model, this.model, this.translate);
+    
+    mat4.rotateY(this.model, this.model, this.angleY);
+    mat4.scale(this.model, this.model, this.scale); 
   }
 
-  draw(gl, cam, light) {
+  draw(gl, cam) {
     // faces orientadas no sentido anti-horário
     gl.frontFace(gl.CCW);
 
@@ -150,4 +172,17 @@ export default class Mesh {
 
     gl.disable(gl.CULL_FACE);
   }
+
+  get lengthX(){
+    return Math.max(...this.x) - Math.min(...this.x);
+  }
+
+  get lengthY(){
+    return Math.max(...this.y) - Math.min(...this.y);
+  }
+
+  get lengthZ(){
+    return Math.max(...this.z) - Math.min(...this.z);
+  }
+
 }

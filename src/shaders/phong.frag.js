@@ -2,17 +2,28 @@ export default
 `#version 300 es
 precision highp float;
 
-uniform vec4 light_pos;
+uniform vec4 light_pos_white;
+uniform vec4 light_pos_yellow;
 
-uniform vec4 light_amb_c;
-uniform float light_amb_k;
+uniform vec4 light_amb_c_white;
+uniform float light_amb_k_white;
 
-uniform vec4 light_dif_c;
-uniform float light_dif_k;
+uniform vec4 light_amb_c_yellow;
+uniform float light_amb_k_yellow;
 
-uniform vec4 light_esp_c;
-uniform float light_esp_k;
-uniform float light_esp_p;
+uniform vec4 light_dif_c_white;
+uniform float light_dif_k_white;
+
+uniform vec4 light_dif_c_yellow;
+uniform float light_dif_k_yellow;
+
+uniform vec4 light_esp_c_white;
+uniform float light_esp_k_white;
+uniform float light_esp_p_white;
+
+uniform vec4 light_esp_c_yellow;
+uniform float light_esp_k_yellow;
+uniform float light_esp_p_yellow;
 
 uniform mat4 u_model;
 uniform mat4 u_view;
@@ -37,21 +48,27 @@ void main()
   viewNormal = normalize(viewNormal);
 
   // posição da luz no sistema da câmera
-  vec4 viewLightPos = u_view * light_pos;
+  vec4 viewLightPosWhite = u_view * light_pos_white;
+  vec4 viewLightPosYellow = u_view * light_pos_yellow;
 
   // direção da luz
-  vec4 lightDir = normalize(viewLightPos - viewPosition);
+  vec4 lightDirWhite = normalize(viewLightPosWhite - viewPosition);
+  vec4 lightDirYellow = normalize(viewLightPosYellow - viewPosition);
 
   // direção da camera (camera está na origem)
   vec4 cameraDir = normalize(-viewPosition);
 
   // fator da componente difusa
-  float fatorDif = max(0.0, dot(lightDir, viewNormal));
+  float fatorDifWhite = max(0.0, dot(lightDirWhite, viewNormal));
+  float fatorDifYellow = max(0.0, dot(lightDirYellow, viewNormal));
 
   // fator da componente especular
-  vec4 halfVec = normalize(lightDir + cameraDir);
-  float fatorEsp = pow(max(0.0, dot(halfVec, viewNormal)), light_esp_p);
+  vec4 halfVecWhite = normalize(lightDirWhite + cameraDir);
+  float fatorEspWhite = pow(max(0.0, dot(halfVecWhite, viewNormal)), light_esp_p_white);
+  vec4 halfVecYellow = normalize(lightDirYellow + cameraDir);
+  float fatorEspYellow = pow(max(0.0, dot(halfVecYellow, viewNormal)), light_esp_p_yellow);
 
   // cor final do vértice
-  minhaColor = 0.25 * fColor + 0.75 * (light_amb_k * light_amb_c + fatorDif * light_dif_k * light_dif_c + fatorEsp * light_esp_k * light_esp_c);
+  minhaColor = 0.25 * fColor + 0.75 * (light_amb_k_white * light_amb_c_white + fatorDifWhite * light_dif_k_white * light_dif_c_white + fatorEspWhite * light_esp_k_white * light_esp_c_white) + 0.25 * fColor + 0.75 * (light_amb_k_yellow * light_amb_c_yellow + fatorDifYellow * light_dif_k_yellow * light_dif_c_yellow + fatorEspYellow * light_esp_k_yellow * light_esp_c_yellow);
+
 }`
