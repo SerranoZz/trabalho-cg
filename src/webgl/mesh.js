@@ -1,12 +1,11 @@
 import vertShaderSrc from '../shaders/phong.vert.js';
 import fragShaderSrc from '../shaders/phong.frag.js';
-
 import Shader from '../shaders/shader.js';
 import { HalfEdgeDS } from '../webgl/half-edge.js';
 
 export default class Mesh {
   constructor(vetTranslate, vetScale, rotateY, rotateZ) {
-    // model data structure
+    // Model data structure
     this.heds = new HalfEdgeDS();
 
     // Matriz de modelagem
@@ -35,7 +34,6 @@ export default class Mesh {
     this.x = [];
     this.y = [];
     this.z = [];
-    
   }
 
   async loadMeshV4(gl, path) {
@@ -44,9 +42,9 @@ export default class Mesh {
     
     const txtList = text.split('\n');
     
-    const coords = []; //v
-    const normals = []; //vn
-    const indices = []; //f
+    const coords = [];
+    const normals = [];
+    const indices = [];
     
     for(let i = 0; i < txtList.length; i++){
       
@@ -57,9 +55,11 @@ export default class Mesh {
         this.x.push(parseFloat(subString[1]));
         this.y.push(parseFloat(subString[2]));
         this.z.push(parseFloat(subString[3]))
-      }else if(subString[0] === 'vn'){
+      }
+      else if(subString[0] === 'vn'){
         normals.push(parseFloat(subString[1]), parseFloat(subString[2]), parseFloat(subString[3]), 0);
-      }else if(subString[0] === 'f'){
+      }
+      else if(subString[0] === 'f'){
         let x = subString[1].split('//');
         let y = subString[2].split('//');
         let z = subString[3].split('//');
@@ -79,12 +79,11 @@ export default class Mesh {
       if (event.key === 'Enter') {
         const modelVertex = modelVertexInput.value;
         if (modelVertex > this.tamanhoCoords) {
-          //verifica se o vértice digitado é maior que os que existem
-          console.log("vértice inexistente");
-        } else {
+          alert("Vértice Inexistente, digite um valor válido!");
+        } 
+        else {
           this.heds.estrela(modelVertex);
           this.createVAO(gl);
-          console.log('Vértice do Modelo:', modelVertex);
         }        
       }
     });
@@ -117,9 +116,9 @@ export default class Mesh {
     const normalsBuffer = Shader.createBuffer(gl, gl.ARRAY_BUFFER, new Float32Array(vbos[2]));
 
     this.vaoLoc = Shader.createVAO(gl,
-      coordsAttributeLocation, coordsBuffer, 
-      colorsAttributeLocation, colorsBuffer, 
-      normalsAttributeLocation, normalsBuffer);
+    coordsAttributeLocation, coordsBuffer, 
+    colorsAttributeLocation, colorsBuffer, 
+    normalsAttributeLocation, normalsBuffer);
 
     this.indicesLoc = Shader.createBuffer(gl, gl.ELEMENT_ARRAY_BUFFER, new Uint32Array(vbos[3]));
   }  

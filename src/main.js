@@ -4,11 +4,8 @@ import Mesh from './webgl/mesh.js';
 
 class Scene {
   constructor(gl) {
-    // Camera virtual
     this.cam = new Camera(gl);
-    console.log(this.cam.pos);
 
-    // Luz
     this.whiteLight = new Light(this.cam.pos, [1.0, 1.0, 1.0, 1.0]);
     this.yellowLight = new Light([0.0, 5.0, 0.0], [1.0, 1.0, 0.0, 0.5])
   }

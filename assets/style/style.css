@@ -1,35 +1,42 @@
 #bottom-bar {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    background-color: #808080;
-    padding: 10px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column; 
-  }
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color:black;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column; 
+}
 
-  #bottom-bar span {
-    font-family: 'montserrat', sans-serif;
-    color: #fff;
-    font-size: 20px;
-    margin-bottom: 10px;
-  }
-  
-  #bottom-bar input[type="text"] {
-    padding: 5px;
-    border: 1px solid #474A51;
-    border-radius: 20px;
-    margin: 10px 0; 
-    transition: transform 0.3s ease-in-out;
-    max-width: 200px;
-  }
-  
-  #bottom-bar input[type="text"]:focus {
-    outline: none;
-    border-color: #0099ff;
-    transform: scale(1.1);
-  }
-  
+#bottom-bar span {
+  font-family: 'montserrat', sans-serif;
+  color: #fff;
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+#bottom-bar input[type="text"] {
+  padding: 5px;
+  border: 1px solid #474A51;
+  border-radius: 20px;
+  margin: 10px 0; 
+  transition: transform 0.3s ease-in-out;
+  max-width: 200px;
+}
+
+#bottom-bar input[type="text"]:focus {
+  outline: none;
+  border-color: #0099ff;
+  transform: scale(1.1);
+}
+
+#model1-vertex {
+  text-align: center;
+}
+
+#model2-vertex {
+  text-align: center;
+}

@@ -71,5 +71,4 @@ void main()
   // cor final do vértice
   minhaColor = 0.25 * fColor + 0.75 * (light_amb_k_white * light_amb_c_white + fatorDifWhite * light_dif_k_white * light_dif_c_white + fatorEspWhite * light_esp_k_white * light_esp_c_white) + 0.25 * fColor + 0.75 * (light_amb_k_yellow * light_amb_c_yellow + fatorDifYellow * light_dif_k_yellow * light_dif_c_yellow + fatorEspYellow * light_esp_k_yellow * light_esp_c_yellow);
 
-  
 }`
